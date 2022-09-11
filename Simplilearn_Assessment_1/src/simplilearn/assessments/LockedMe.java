@@ -1,14 +1,13 @@
 package simplilearn.assessments;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 public class LockedMe {
 	static final String ERROR_STRING = "SOME ERROR OCCURED..!!";
-	static final String PATH_STRING = "D:\simplyJavaPlayground";
+	static final String PATH_STRING = "D:\\simplyJavaPlayground";
 
 	public static void main(String[] args) throws IOException {
 		Scanner scan = new Scanner(System.in);
@@ -19,18 +18,19 @@ public class LockedMe {
 			opt = Integer.parseInt(scan.nextLine());
 			switch (opt) {
 			case 1:
-				getAllFiles();
+				listFiles();
 				break;
 			case 2:
-				addFile();
-				break;
-			case 3:
-				deleteAllFiles();
-				break;
-			case 4:
 				searchFiles();
 				break;
+			case 3:
+				addFile();
+				break;
+			case 4:
+				deleteAllFiles();
+				break;
 			case 5:
+				System.out.println("Program exited..!!");
 				System.exit(0);
 				break;
 			default:
@@ -46,9 +46,9 @@ public class LockedMe {
 		System.out.println("\t   by MOHIT TOMAR");
 		System.out.println("*************************************");
 		System.out.println("\t1. List Files");
-		System.out.println("\t4. Search File");
-		System.out.println("\t2. Add File");
-		System.out.println("\t3. Delete File");
+		System.out.println("\t2. Search File");
+		System.out.println("\t3. Add File");
+		System.out.println("\t4. Delete File");
 		System.out.println("\t5. Quit");
 	}
 
@@ -57,15 +57,12 @@ public class LockedMe {
 			Scanner scan = new Scanner(System.in);
 			System.out.println("Enter file name");
 			String fileName = scan.nextLine();
-			System.out.println("Enter how many lines in the file");
-			int linesCount = Integer.parseInt(scan.nextLine());
-			FileWriter myWriter = new FileWriter(PATH_STRING + "\\" + fileName);
-			for (int i = 1; i <= linesCount; i++) {
-				System.out.println("Enter the file line");
-				myWriter.write(scan.nextLine() + "\n");
+			File file = new File(fileName);
+			if (file.createNewFile()) {
+				System.out.println("File has been created successfully");
+			} else {
+				System.out.println("File exists already");
 			}
-			System.out.println("File has been created successfully");
-			myWriter.close();
 			scan.close();
 
 		} catch (Exception ex) {
@@ -74,17 +71,19 @@ public class LockedMe {
 
 	}
 
-	public static void getAllFiles() {
+	public static void listFiles() {
 		try {
 			File folder = new File(PATH_STRING);
 			File[] listOfFiles = folder.listFiles();
+			System.out.println("\t------- FILES START ------- ");
 			if (listOfFiles.length == 0) {
 				System.out.println("No Files Exist");
 			} else {
 				for (var l : listOfFiles) {
-					System.out.println(l.getName());
+					System.out.println("\t\t" + l.getName());
 				}
 			}
+			System.out.println("\t-------- FILES END --------\n");
 		} catch (Exception Ex) {
 			System.out.println(ERROR_STRING);
 		}
